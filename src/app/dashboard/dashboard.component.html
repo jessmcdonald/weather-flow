@@ -1,0 +1,10 @@
+<h1>Dashboard</h1>
+<div *ngIf="userCurrentLatitude && userCurrentLongitude">
+    <p>current latitude: {{userCurrentLatitude}}</p>
+    <p>current longiude: {{userCurrentLongitude}}</p>
+</div>
+<div *ngIf="data$ | async as data">
+    <ul>
+        <li>Current location: {{data.current.temp}}</li>
+    </ul>>
+</div>
