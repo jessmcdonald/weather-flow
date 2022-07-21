@@ -6,12 +6,14 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { DetailsComponent } from './details/details.component';
+import { LocationListItemComponent } from './location-list-item/location-list-item.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     DashboardComponent,
-    DetailsComponent
+    DetailsComponent,
+    LocationListItemComponent
   ],
   imports: [
     BrowserModule,

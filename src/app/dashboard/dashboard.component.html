@@ -3,8 +3,12 @@
     <p>current latitude: {{userCurrentLatitude}}</p>
     <p>current longiude: {{userCurrentLongitude}}</p>
 </div>
-<div *ngIf="data$ | async as data">
-    <ul>
-        <li>Current location: {{data.current.temp}}</li>
-    </ul>>
+<div *ngIf="currentLocationData$ | async as data">
+    <location-list-item [locationName]=data.name [currentTemp]=data.temp></location-list-item>
 </div>
+
+<!-- <ul *ngIf="locationsList.length > 0">
+    <ng-container *ngFor="let location of locationsList">
+        <location-list-item [locationName]=location.name [currentTemp]=location.temp></location-list-item>
+    </ng-container>
+</ul> -->
