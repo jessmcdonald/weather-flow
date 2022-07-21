@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Router, ActivatedRoute, ParamMap } from '@angular/router';
+import { Observable, switchMap } from 'rxjs';
+import { Units, WeatherService } from '../shared/weather.service';
 
 @Component({
   selector: 'app-details',
@@ -6,11 +9,32 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./details.component.scss']
 })
 export class DetailsComponent implements OnInit {
+  public selectedLocation$: Observable<any>;
+  public UnitsType = Units;
+  public unitsToDisplay: Units;
+  public tempUnit: string;
 
-  constructor() { }
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private weatherService: WeatherService,
+  ) { }
 
   ngOnInit(): void {
-    console.log('doing something so linter doesnt whinge');
+    this.setUnitsToDisplay();
+    this.selectedLocation$ = this.route.paramMap.pipe(
+      switchMap((params: ParamMap) =>
+        this.weatherService.getWeatherForLocation(undefined, undefined, params.get('id')!))
+    );
+  }
+
+  public setUnitsToDisplay(): void {
+    this.unitsToDisplay = this.weatherService.getUnitsToDisplay();
+    this.tempUnit = this.weatherService.getTempUnitString();
+  }
+
+  public goToDashboard(): void {
+    this.router.navigate(['/dashboard']);
   }
 
 }

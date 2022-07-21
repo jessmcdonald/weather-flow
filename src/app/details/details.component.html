@@ -1,1 +1,34 @@
-<p>details works!</p>
+<button (click)="goToDashboard()">Back</button>
+<div *ngIf="selectedLocation$ | async as location">
+    <div>
+        <span>{{location.weather}}</span>
+        <span>{{location.weather_description}}</span>
+    </div>
+    <h1>{{location.name}}</h1>
+    <ng-container>
+        <h2>{{location.temp}} °C</h2>
+        <div>
+            <span>feels like: {{location.feels_like}} {{tempUnit}}</span>
+        </div>
+        <div>
+            <span>high temp: {{location.temp_max}} {{tempUnit}}</span>
+        </div>
+        <div>
+            <span>low temp: {{location.temp_min}} {{tempUnit}}</span>
+        </div>
+    </ng-container>
+    
+    <div>
+        <span>sunrise {{location.sunrise | date:'shortTime'}}</span>
+    </div>
+    <div>
+        <span>sunset {{location.sunset | date:'shortTime'}}</span>
+    </div>
+    <div>
+        <span>humidity {{location.humidity}} %</span>
+    </div>
+    <div>
+        <span>visibility {{location.visibility}} km</span>
+    </div>
+    
+</div>

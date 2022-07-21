@@ -1,4 +1,4 @@
-<div>
+<div [routerLink]="['/details', locationName]">
     <div>{{locationName}}</div>
-    <div>{{currentTemp}}</div>
+    <div>{{currentTemp}} {{tempUnit}}</div>
 </div>

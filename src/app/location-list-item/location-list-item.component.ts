@@ -9,6 +9,7 @@ export class LocationListItemComponent implements OnInit {
 
   @Input() locationName: string;
   @Input() currentTemp: number;
+  @Input() tempUnit: string;
 
 
   constructor() { }

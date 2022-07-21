@@ -3,8 +3,9 @@
     <p>current latitude: {{userCurrentLatitude}}</p>
     <p>current longiude: {{userCurrentLongitude}}</p>
 </div>
+
 <div *ngIf="currentLocationData$ | async as data">
-    <location-list-item [locationName]=data.name [currentTemp]=data.temp></location-list-item>
+    <location-list-item [locationName]=data.name [currentTemp]=data.temp [tempUnit]=this.tempUnit></location-list-item>
 </div>
 
 <!-- <ul *ngIf="locationsList.length > 0">
@@ -12,3 +13,8 @@
         <location-list-item [locationName]=location.name [currentTemp]=location.temp></location-list-item>
     </ng-container>
 </ul> -->
+
+<div>
+    <button (click)=setUnitsToDisplay(UnitsType.METRIC)>metric</button>
+    <button (click)=setUnitsToDisplay(UnitsType.IMPERIAL)>imperial</button>
+</div>

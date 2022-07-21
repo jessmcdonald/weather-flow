@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { weatherObject, WeatherService } from '../shared/weather.service';
+import { Units, weatherObject, WeatherService } from '../shared/weather.service';
 import { Observable, throwError } from 'rxjs';
 
 @Component({
@@ -13,6 +13,8 @@ export class DashboardComponent implements OnInit {
   public userCurrentLongitude: number;
   public currentLocationData$: Observable<weatherObject>;
   public locationsList: weatherObject[] = [];
+  public UnitsType = Units;
+  public tempUnit: string;
 
   constructor(
     private weatherService: WeatherService
@@ -25,6 +27,7 @@ export class DashboardComponent implements OnInit {
 
 
   public setUsersCurrentLocation(): void {
+    this.tempUnit = this.weatherService.getTempUnitString();
     navigator.geolocation.getCurrentPosition((position) => {
       this.userCurrentLatitude = position.coords.latitude;
       this.userCurrentLongitude = position.coords.longitude;
@@ -34,5 +37,10 @@ export class DashboardComponent implements OnInit {
 
   public setDefaultLocations(): void {
     console.log(this.locationsList);
+  }
+
+  public setUnitsToDisplay(units: Units): void {
+    this.weatherService.setUnitsToDisplay(units);
+    this.setUsersCurrentLocation();
   }
 }

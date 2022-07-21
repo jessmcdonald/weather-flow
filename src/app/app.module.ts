@@ -7,6 +7,7 @@ import { AppComponent } from './app.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { DetailsComponent } from './details/details.component';
 import { LocationListItemComponent } from './location-list-item/location-list-item.component';
+import { WeatherService } from './shared/weather.service';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,9 @@ import { LocationListItemComponent } from './location-list-item/location-list-it
     AppRoutingModule,
     HttpClientModule,
   ],
-  providers: [],
+  providers: [
+    WeatherService,
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -6,7 +6,8 @@ import { DetailsComponent } from './details/details.component';
 const routes: Routes = [
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
   { path: 'dashboard', component: DashboardComponent },
-  { path: 'details', component: DetailsComponent },
+  { path: 'details/:id', component: DetailsComponent },
+  { path: '**', component: DashboardComponent }, // TODO add pagenotfound component
 ];
 
 @NgModule({
