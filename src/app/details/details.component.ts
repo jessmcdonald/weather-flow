@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { Observable, switchMap } from 'rxjs';
-import { Units, WeatherService } from '../shared/weather.service';
+import { Units } from '../shared/models/weather.models';
+import { WeatherService } from '../shared/weather.service';
 
 @Component({
   selector: 'app-details',

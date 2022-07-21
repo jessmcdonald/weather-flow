@@ -11,7 +11,6 @@ export class LocationListItemComponent implements OnInit {
   @Input() currentTemp: number;
   @Input() tempUnit: string;
 
-
   constructor() { }
 
   ngOnInit(): void {

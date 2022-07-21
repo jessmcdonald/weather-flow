@@ -1,20 +1,24 @@
 <h1>Dashboard</h1>
-<div *ngIf="userCurrentLatitude && userCurrentLongitude">
-    <p>current latitude: {{userCurrentLatitude}}</p>
-    <p>current longiude: {{userCurrentLongitude}}</p>
-</div>
+<div *ngIf="currentLat && currentLon; else locationNotDetected">
 
-<div *ngIf="currentLocationData$ | async as data">
-    <location-list-item [locationName]=data.name [currentTemp]=data.temp [tempUnit]=this.tempUnit></location-list-item>
 </div>
+<ng-template #locationNotDetected>
+    <div i18n>Detecting location...</div>
+</ng-template>
 
-<!-- <ul *ngIf="locationsList.length > 0">
-    <ng-container *ngFor="let location of locationsList">
-        <location-list-item [locationName]=location.name [currentTemp]=location.temp></location-list-item>
-    </ng-container>
-</ul> -->
+<ul>
+    <li *ngIf="currentLocationWeather; else loading">
+        <location-list-item [locationName]=currentLocationWeather.name [currentTemp]=currentLocationWeather.temp [tempUnit]=this.tempUnit></location-list-item>
+    </li>
+    <ng-template #loading>
+        <li>Loading current weather</li>
+    </ng-template>
+    <li *ngFor="let location of locationsList">
+        <location-list-item [locationName]=location.name [currentTemp]=location.temp [tempUnit]=this.tempUnit></location-list-item>
+    </li>
+</ul>
 
 <div>
-    <button (click)=setUnitsToDisplay(UnitsType.METRIC)>metric</button>
-    <button (click)=setUnitsToDisplay(UnitsType.IMPERIAL)>imperial</button>
+    <button (click)=setUnitsToDisplay(UnitsType.METRIC) i18n>metric</button>
+    <button (click)=setUnitsToDisplay(UnitsType.IMPERIAL) i18n>imperial</button>
 </div>

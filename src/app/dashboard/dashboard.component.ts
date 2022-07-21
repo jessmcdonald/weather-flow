@@ -1,6 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { Units, weatherObject, WeatherService } from '../shared/weather.service';
-import { Observable, throwError } from 'rxjs';
+import { Units } from '../shared/models/weather.models';
+import { WeatherService } from '../shared/weather.service';
+
+interface basicWeatherObject {
+    name: string,
+    temp: number,
+}
 
 @Component({
   selector: 'app-dashboard',
@@ -9,10 +14,10 @@ import { Observable, throwError } from 'rxjs';
 })
 export class DashboardComponent implements OnInit {
 
-  public userCurrentLatitude: number;
-  public userCurrentLongitude: number;
-  public currentLocationData$: Observable<weatherObject>;
-  public locationsList: weatherObject[] = [];
+  public currentLat: number;
+  public currentLon: number;
+  public currentLocationWeather: basicWeatherObject;
+  public locationsList: basicWeatherObject[] = [];
   public UnitsType = Units;
   public tempUnit: string;
 
@@ -22,25 +27,26 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit(): void {
     this.setUsersCurrentLocation();
-    this.setDefaultLocations();
+    this.locationsList = this.weatherService.getDefaultLocationWeather();
+    this.tempUnit = this.weatherService.getTempUnitString();
   }
 
 
   public setUsersCurrentLocation(): void {
-    this.tempUnit = this.weatherService.getTempUnitString();
     navigator.geolocation.getCurrentPosition((position) => {
-      this.userCurrentLatitude = position.coords.latitude;
-      this.userCurrentLongitude = position.coords.longitude;
-      this.currentLocationData$ = this.weatherService.getWeatherForLocation(this.userCurrentLatitude, this.userCurrentLongitude);
+      this.currentLat = position.coords.latitude;
+      this.currentLon = position.coords.longitude;
+      this.setCurrentWeather();
     });
   }
 
-  public setDefaultLocations(): void {
-    console.log(this.locationsList);
+  public setCurrentWeather(): void {
+    this.weatherService.getBasicWeatherForLocation(this.currentLat, this.currentLon).subscribe(currentLocationObject => this.currentLocationWeather = currentLocationObject);
   }
 
   public setUnitsToDisplay(units: Units): void {
     this.weatherService.setUnitsToDisplay(units);
-    this.setUsersCurrentLocation();
+    this.setCurrentWeather();
+    this.weatherService.setDefaultLocationWeather();
   }
 }
