@@ -11,16 +11,20 @@ import { basicWeatherObject, Units, weatherObject } from './models/weather.model
 export class WeatherService {
 
   private unitsToDisplay: Units = Units.METRIC;
-  private defaultLocationsWeather: basicWeatherObject[] = [];
+  private currentLocationWeather: weatherObject;
+  private defaultLocationsWeather: weatherObject[] = [];
   private defaultLocations = ['Berlin', 'London', 'Hong Kong'];
+  private currentLat: number;
+  private currentLon: number;
 
   constructor(
     private http: HttpClient
   ) {
+    this.setUsersCurrentLocation();
     this.setDefaultLocationWeather();
    }
 
-  public getWeatherForLocation(lat?: number, lon?: number, city?: string): Observable<weatherObject>{
+  public fetchWeatherForLocation(lat?: number, lon?: number, city?: string): Observable<weatherObject>{
     const baseUrlPath: string = "https://api.openweathermap.org/data/2.5/weather";
     const openWeatherApiKey: string = '23a52deef379e7d6bca0f7b3239f7a3b'; // TODO move this to somewhere secure
     let params = new HttpParams()
@@ -52,29 +56,6 @@ export class WeatherService {
     )
   }
 
-  public getBasicWeatherForLocation(lat?: number, lon?: number, city?: string): Observable<basicWeatherObject> {
-    const baseUrlPath: string = "https://api.openweathermap.org/data/2.5/weather";
-    const openWeatherApiKey: string = '23a52deef379e7d6bca0f7b3239f7a3b'; // TODO move this to somewhere secure
-    let params = new HttpParams()
-      .set('units', this.unitsToDisplay)
-      .set('appid', openWeatherApiKey);;
-    if(lat && lon) {
-      params = params.append('lat', lat).append('lon', lon)
-    } else if (city) {
-      params = params.append('q', city)
-    }
-
-    return this.http.get<any>(baseUrlPath, {params}).pipe(
-      map(
-        response => ({
-          name: response.name,
-          temp: response.main.temp.toFixed(0),
-          weather: response.weather[0].main,
-        } as basicWeatherObject)
-      )
-    )
-  }
-
   public setUnitsToDisplay(units: Units): void {
     this.unitsToDisplay = units;
   }
@@ -84,13 +65,43 @@ export class WeatherService {
   }
 
   public setDefaultLocationWeather(): void {
+    this.defaultLocationsWeather = [];
     for(let i = 0; i < this.defaultLocations.length; i++) {
-      this.getBasicWeatherForLocation(undefined, undefined, this.defaultLocations[i]).subscribe(basicWeather => this.defaultLocationsWeather.push(basicWeather));
+      this.fetchWeatherForLocation(undefined, undefined, this.defaultLocations[i]).subscribe(basicWeather => this.defaultLocationsWeather.push(basicWeather));
     }
   }
 
-  public getDefaultLocationWeather(): basicWeatherObject[] {
+  public getDefaultLocationWeather(): weatherObject[] {
     return this.defaultLocationsWeather;
+  }
+
+  public setUsersCurrentLocation(): void {
+    navigator.geolocation.getCurrentPosition((position) => {
+      this.currentLat = position.coords.latitude;
+      this.currentLon = position.coords.longitude;
+      this.setCurrentLocationWeather();
+    });
+  }
+
+  public setCurrentLocationWeather(): void {
+    this.fetchWeatherForLocation(this.currentLat, this.currentLon).subscribe(currentLocationObject => {
+      this.currentLocationWeather = currentLocationObject;
+      this.defaultLocationsWeather.push(currentLocationObject);
+    });
+  }
+
+  public getCurrentLocationWeather(): weatherObject {
+    return this.currentLocationWeather;
+  }
+
+  public getWeatherByName(name: string | null): weatherObject {
+    const result = this.defaultLocationsWeather.filter(obj => {
+      return obj.name === name
+    });
+    if(result.length > 0) {
+      return result[0];
+    }
+    return result[0];
   }
 
   public getTempUnitString(): string {

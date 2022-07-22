@@ -9,11 +9,7 @@ describe('WeatherService', () => {
   let service: WeatherService;
   let httpController: HttpTestingController;
   let url = 'https://api.openweathermap.org/data/2.5/weather?units=metric&appid=23a52deef379e7d6bca0f7b3239f7a3b';
-  // let basicUrl = 'https://api.openweathermap.org/data/2.5/weather?units=metric&appid=23a52deef379e7d6bca0f7b3239f7a3b&q=Berlin';
   let httpClient: HttpClient;
-  // let httpClientSpy: jasmine.SpyObj<HttpClient>;
-  // let weatherService: WeatherService;
-  
   
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -22,18 +18,16 @@ describe('WeatherService', () => {
     httpClient = TestBed.inject(HttpClient);
     httpController = TestBed.inject(HttpTestingController);
     service = TestBed.inject(WeatherService);
-    // httpClientSpy = jasmine.createSpyObj('HttpClient', ['get']);
-    // weatherService = new WeatherService(httpClientSpy);
   });
 
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should call getWeatherForLocation and return weather object', () => {
+  it('should call fetchWeatherForLocation and return weather object', () => {
     const city = 'Barcelona';
 
-    service.getWeatherForLocation(undefined, undefined, city).subscribe((res) => {
+    service.fetchWeatherForLocation(undefined, undefined, city).subscribe((res) => {
       expect(res).toEqual(mockWeatherObject);
     });
     const req = httpController.expectOne({

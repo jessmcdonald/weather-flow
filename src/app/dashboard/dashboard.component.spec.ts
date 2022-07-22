@@ -9,7 +9,11 @@ import { DashboardComponent } from './dashboard.component';
 import { cold, getTestScheduler } from 'jasmine-marbles';
 
 const weatherServiceStub = {
-  getWeatherForLocation() {
+  fetchWeatherForLocation() {
+    const weather$ = cold('--a|', { a: [{name: "berlin"}] });
+    return weather$;
+  },
+  getCurrentLocationWeather() {
     const weather$ = cold('--a|', { a: [{name: "berlin"}] });
     return weather$;
   },
@@ -59,10 +63,6 @@ describe('DashboardComponent', () => {
     expect(fixture.debugElement.query(By.css('.default-location-list-item'))).toBeTruthy();
   });
 
-  it('should display loading while detecting user location', fakeAsync(() => {
-    expect(fixture.debugElement.query(By.css('.current-location-loading'))).toBeTruthy();
-  }));
-
   it('should display weather for users current location', fakeAsync(() => {
     spyOn(navigator.geolocation, 'getCurrentPosition').and.callFake((...args: any[]) => {
       const position = { coords: { latitude: 54.548, longitude: 14.459 } };
@@ -70,9 +70,8 @@ describe('DashboardComponent', () => {
     });
     getTestScheduler().flush();
     fixture.detectChanges();
-    // TODO figure out why this one doesn't work
-    // expect(fixture.debugElement.query(By.css('.current-location-loading'))).toBeFalsy();
-    // expect(fixture.debugElement.query(By.css('.current-location-list-item'))).toBeTruthy();
+    expect(fixture.debugElement.query(By.css('.current-location-loading'))).toBeFalsy();
+    expect(fixture.debugElement.query(By.css('.current-location-list-item'))).toBeTruthy();
   }));
 
   it('should change the units when user changes preference', fakeAsync(() => {

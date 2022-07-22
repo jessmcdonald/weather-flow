@@ -6,9 +6,10 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { WeatherService } from '../shared/weather.service';
 import { Units } from '../shared/models/weather.models';
 import { cold, getTestScheduler } from 'jasmine-marbles';
+import { mockWeatherObject } from '../testing/mockData';
 
 const weatherServiceStub = {
-  getWeatherForLocation() {
+  fetchWeatherForLocation() {
     const weather$ = cold('--a|', { a: [{name: "berlin"}] });
     return weather$;
   },
@@ -17,6 +18,9 @@ const weatherServiceStub = {
   },
   getTempUnitString() {
     return "°C";
+  },
+  getWeatherByName() {
+    return mockWeatherObject;
   }
 };
 

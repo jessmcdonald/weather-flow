@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { Observable, switchMap } from 'rxjs';
-import { Units } from '../shared/models/weather.models';
+import { Units, weatherObject } from '../shared/models/weather.models';
 import { WeatherService } from '../shared/weather.service';
 
 @Component({
@@ -11,6 +11,7 @@ import { WeatherService } from '../shared/weather.service';
 })
 export class DetailsComponent implements OnInit {
   public selectedLocation$: Observable<any>;
+  public selectedLocation: weatherObject;
   public UnitsType = Units;
   public unitsToDisplay: Units;
   public tempUnit: string;
@@ -23,10 +24,16 @@ export class DetailsComponent implements OnInit {
 
   ngOnInit(): void {
     this.setUnitsToDisplay();
-    this.selectedLocation$ = this.route.paramMap.pipe(
-      switchMap((params: ParamMap) =>
-        this.weatherService.getWeatherForLocation(undefined, undefined, params.get('id')!))
-    );
+    // this.selectedLocation$ = this.route.paramMap.pipe(
+    //   switchMap((params: ParamMap) =>
+    //     this.weatherService.fetchWeatherForLocation(undefined, undefined, params.get('id')!))
+    // );
+
+    // this.selectedLocation = this.route.paramMap.pipe(
+    //   switchMap((params: ParamMap) =>
+    //     this.weatherService.getWeatherByName(params.get('id')!))
+    // );
+    this.selectedLocation = this.weatherService.getWeatherByName(this.route.snapshot.paramMap.get('id'));
   }
 
   public setUnitsToDisplay(): void {

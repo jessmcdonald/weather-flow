@@ -32,3 +32,37 @@
     </div>
     
 </div>
+
+<div *ngIf="selectedLocation">
+    <div>
+        <span class="detail--weather">{{selectedLocation.weather}}</span>
+        <span>{{selectedLocation.weather_description}}</span>
+    </div>
+    <h1>{{selectedLocation.name}}</h1>
+    <ng-container>
+        <h2 class="detail--temp">{{selectedLocation.temp}} °C</h2>
+        <div>
+            <span class="detail--feelslike">feels like: {{selectedLocation.feels_like}} {{tempUnit}}</span>
+        </div>
+        <div>
+            <span class="detail--hitemp">high temp: {{selectedLocation.temp_max}} {{tempUnit}}</span>
+        </div>
+        <div>
+            <span class="detail--lotemp">low temp: {{selectedLocation.temp_min}} {{tempUnit}}</span>
+        </div>
+    </ng-container>
+    
+    <div>
+        <span class="detail--sunrise">sunrise {{selectedLocation.sunrise | date:'shortTime'}}</span>
+    </div>
+    <div>
+        <span class="detail--sunset">sunset {{selectedLocation.sunset | date:'shortTime'}}</span>
+    </div>
+    <div>
+        <span class="detail--location">humidity {{selectedLocation.humidity}} %</span>
+    </div>
+    <div>
+        <span class="detail--visibility">visibility {{selectedLocation.visibility}} km</span>
+    </div>
+    
+</div>
