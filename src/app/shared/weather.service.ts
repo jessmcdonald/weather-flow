@@ -54,7 +54,7 @@ export class WeatherService {
         } as weatherObject)
       ),
       catchError((error) => {
-        console.log(error);
+        this.locationError = error.message;
         return throwError(() => new Error(error.message));
       })
     )
