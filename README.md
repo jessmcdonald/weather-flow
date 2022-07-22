@@ -24,7 +24,7 @@ Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To u
 # Future
 Product improvements I would add next:
 * add search functionality so user can search for locations other than their current one / in case geolocation fails
-* add possibility to select & save custom default locations
+* add possibility to add/remove & save custom default locations
 
 * state management - I have chosen not to implement NgRx at this point as for an app of this size I thought it would be overkill, however as funtionality and user settings are added, it could make sense to add state management following Redux pattern.
 

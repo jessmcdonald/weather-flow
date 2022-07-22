@@ -24,16 +24,9 @@ export class DetailsComponent implements OnInit {
 
   ngOnInit(): void {
     this.setUnitsToDisplay();
-    // this.selectedLocation$ = this.route.paramMap.pipe(
-    //   switchMap((params: ParamMap) =>
-    //     this.weatherService.fetchWeatherForLocation(undefined, undefined, params.get('id')!))
-    // );
-
-    // this.selectedLocation = this.route.paramMap.pipe(
-    //   switchMap((params: ParamMap) =>
-    //     this.weatherService.getWeatherByName(params.get('id')!))
-    // );
-    this.selectedLocation = this.weatherService.getWeatherByName(this.route.snapshot.paramMap.get('id'));
+    this.route.paramMap.subscribe( paramMap => {
+      this.selectedLocation = this.weatherService.getWeatherByName((paramMap).get('id'));
+    });
   }
 
   public setUnitsToDisplay(): void {

@@ -1,39 +1,5 @@
 <button class="back-btn" (click)="goToDashboard()">Back</button>
-<div *ngIf="selectedLocation$ | async as location">
-    <div>
-        <span class="detail--weather">{{location.weather}}</span>
-        <span>{{location.weather_description}}</span>
-    </div>
-    <h1>{{location.name}}</h1>
-    <ng-container>
-        <h2 class="detail--temp">{{location.temp}} °C</h2>
-        <div>
-            <span class="detail--feelslike">feels like: {{location.feels_like}} {{tempUnit}}</span>
-        </div>
-        <div>
-            <span class="detail--hitemp">high temp: {{location.temp_max}} {{tempUnit}}</span>
-        </div>
-        <div>
-            <span class="detail--lotemp">low temp: {{location.temp_min}} {{tempUnit}}</span>
-        </div>
-    </ng-container>
-    
-    <div>
-        <span class="detail--sunrise">sunrise {{location.sunrise | date:'shortTime'}}</span>
-    </div>
-    <div>
-        <span class="detail--sunset">sunset {{location.sunset | date:'shortTime'}}</span>
-    </div>
-    <div>
-        <span class="detail--location">humidity {{location.humidity}} %</span>
-    </div>
-    <div>
-        <span class="detail--visibility">visibility {{location.visibility}} km</span>
-    </div>
-    
-</div>
-
-<div *ngIf="selectedLocation">
+<div *ngIf="selectedLocation; else cannotGetWeather">
     <div>
         <span class="detail--weather">{{selectedLocation.weather}}</span>
         <span>{{selectedLocation.weather_description}}</span>
@@ -66,3 +32,7 @@
     </div>
     
 </div>
+
+<ng-template #cannotGetWeather>
+    <div>sorry we can't get the weather for that location :(</div>
+</ng-template>

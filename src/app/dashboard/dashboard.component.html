@@ -2,23 +2,31 @@
 
 <!-- <div *ngIf="currentLat && currentLon; else locationNotDetected"></div> -->
 
-<ng-template #locationNotDetected>
+<!-- <ng-template #locationNotDetected>
     <div i18n>Detecting location...</div>
-</ng-template>
+</ng-template> -->
 
 <ul>
     <li *ngIf="currentLocationWeather; else loading" class="current-location-list-item">
         <wf-location-list-item [locationName]=currentLocationWeather.name [currentTemp]=currentLocationWeather.temp [tempUnit]=this.tempUnit></wf-location-list-item>
     </li>
     <ng-template #loading>
-        <li class="current-location-loading">Loading current weather</li>
+        <li class="current-location-loading">
+            <div *ngIf="!locationError; else locationErrorMessage">Loading current weather</div>
+            <ng-template #locationErrorMessage>
+                <div>{{locationError}}</div>
+            </ng-template>
+        </li>
     </ng-template>
     <li *ngFor="let location of locationsList" class="default-location-list-item">
         <wf-location-list-item [locationName]=location.name [currentTemp]=location.temp [tempUnit]=this.tempUnit></wf-location-list-item>
     </li>
 </ul>
 
-<div>
+<!-- TODO I fudged this up, fix if have time 
+    use event emitter to update dahsboard component
+    store both sets of data once requested-->
+<!-- <div>
     <button class="metric-btn" (click)=setUnitsToDisplay(UnitsType.METRIC) i18n>metric</button>
     <button class="imperial-btn" (click)=setUnitsToDisplay(UnitsType.IMPERIAL) i18n>imperial</button>
-</div>
+</div> -->

@@ -15,6 +15,7 @@ export class DashboardComponent implements OnInit, DoCheck {
   public locationsList: weatherObject[] = [];
   public UnitsType = Units;
   public tempUnit: string;
+  public locationError: string;
 
   constructor(
     private weatherService: WeatherService
@@ -32,6 +33,9 @@ export class DashboardComponent implements OnInit, DoCheck {
 
   public setCurrentWeather(): void {
     this.currentLocationWeather = this.weatherService.getCurrentLocationWeather();
+    if(!this.currentLocationWeather) {
+      this.locationError = this.weatherService.getLocationError();
+    }
   }
 
   public setUnitsToDisplay(units: Units): void {
