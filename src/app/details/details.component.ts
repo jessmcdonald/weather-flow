@@ -5,7 +5,7 @@ import { Units } from '../shared/models/weather.models';
 import { WeatherService } from '../shared/weather.service';
 
 @Component({
-  selector: 'app-details',
+  selector: 'wf-details',
   templateUrl: './details.component.html',
   styleUrls: ['./details.component.scss']
 })

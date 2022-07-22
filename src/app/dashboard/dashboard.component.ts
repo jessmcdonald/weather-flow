@@ -8,7 +8,7 @@ interface basicWeatherObject {
 }
 
 @Component({
-  selector: 'app-dashboard',
+  selector: 'wf-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })

@@ -1,34 +1,34 @@
-<button (click)="goToDashboard()">Back</button>
+<button class="back-btn" (click)="goToDashboard()">Back</button>
 <div *ngIf="selectedLocation$ | async as location">
     <div>
-        <span>{{location.weather}}</span>
+        <span class="detail--weather">{{location.weather}}</span>
         <span>{{location.weather_description}}</span>
     </div>
     <h1>{{location.name}}</h1>
     <ng-container>
-        <h2>{{location.temp}} °C</h2>
+        <h2 class="detail--temp">{{location.temp}} °C</h2>
         <div>
-            <span>feels like: {{location.feels_like}} {{tempUnit}}</span>
+            <span class="detail--feelslike">feels like: {{location.feels_like}} {{tempUnit}}</span>
         </div>
         <div>
-            <span>high temp: {{location.temp_max}} {{tempUnit}}</span>
+            <span class="detail--hitemp">high temp: {{location.temp_max}} {{tempUnit}}</span>
         </div>
         <div>
-            <span>low temp: {{location.temp_min}} {{tempUnit}}</span>
+            <span class="detail--lotemp">low temp: {{location.temp_min}} {{tempUnit}}</span>
         </div>
     </ng-container>
     
     <div>
-        <span>sunrise {{location.sunrise | date:'shortTime'}}</span>
+        <span class="detail--sunrise">sunrise {{location.sunrise | date:'shortTime'}}</span>
     </div>
     <div>
-        <span>sunset {{location.sunset | date:'shortTime'}}</span>
+        <span class="detail--sunset">sunset {{location.sunset | date:'shortTime'}}</span>
     </div>
     <div>
-        <span>humidity {{location.humidity}} %</span>
+        <span class="detail--location">humidity {{location.humidity}} %</span>
     </div>
     <div>
-        <span>visibility {{location.visibility}} km</span>
+        <span class="detail--visibility">visibility {{location.visibility}} km</span>
     </div>
     
 </div>

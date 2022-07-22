@@ -7,18 +7,18 @@
 </ng-template>
 
 <ul>
-    <li *ngIf="currentLocationWeather; else loading">
-        <location-list-item [locationName]=currentLocationWeather.name [currentTemp]=currentLocationWeather.temp [tempUnit]=this.tempUnit></location-list-item>
+    <li *ngIf="currentLocationWeather; else loading" class="current-location-list-item">
+        <wf-location-list-item [locationName]=currentLocationWeather.name [currentTemp]=currentLocationWeather.temp [tempUnit]=this.tempUnit></wf-location-list-item>
     </li>
     <ng-template #loading>
-        <li>Loading current weather</li>
+        <li class="current-location-loading">Loading current weather</li>
     </ng-template>
-    <li *ngFor="let location of locationsList">
-        <location-list-item [locationName]=location.name [currentTemp]=location.temp [tempUnit]=this.tempUnit></location-list-item>
+    <li *ngFor="let location of locationsList" class="default-location-list-item">
+        <wf-location-list-item [locationName]=location.name [currentTemp]=location.temp [tempUnit]=this.tempUnit></wf-location-list-item>
     </li>
 </ul>
 
 <div>
-    <button (click)=setUnitsToDisplay(UnitsType.METRIC) i18n>metric</button>
-    <button (click)=setUnitsToDisplay(UnitsType.IMPERIAL) i18n>imperial</button>
+    <button class="metric-btn" (click)=setUnitsToDisplay(UnitsType.METRIC) i18n>metric</button>
+    <button class="imperial-btn" (click)=setUnitsToDisplay(UnitsType.IMPERIAL) i18n>imperial</button>
 </div>

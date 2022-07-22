@@ -7,7 +7,10 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "lint": "ng lint"
+    "lint": "ng lint",
+    "e2e": "ng e2e",
+    "cypress:open": "cypress open",
+    "cypress:run": "cypress run"
   },
   "private": true,
   "dependencies": {
@@ -19,6 +22,7 @@
     "@angular/platform-browser": "^14.0.0",
     "@angular/platform-browser-dynamic": "^14.0.0",
     "@angular/router": "^14.0.0",
+    "jasmine-marbles": "^0.9.2",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.11.4"
@@ -33,9 +37,11 @@
     "@angular/cli": "~14.0.6",
     "@angular/compiler-cli": "^14.0.0",
     "@angular/localize": "^14.0.6",
+    "@cypress/schematic": "^2.0.0",
     "@types/jasmine": "~4.0.0",
     "@typescript-eslint/eslint-plugin": "5.29.0",
     "@typescript-eslint/parser": "5.29.0",
+    "cypress": "latest",
     "eslint": "^8.18.0",
     "jasmine-core": "~4.1.0",
     "karma": "~6.3.0",
