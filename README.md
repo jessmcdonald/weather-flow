@@ -37,7 +37,8 @@ To better understand user behaviour I would suggest to fire custom events (to be
 
 ## CICD
 Gitlab CICD could be used to set up pipelines that are automatically triggered by developer actions.
-Pipeline to be built for dev workflow -> this is triggered by a push to a feature branch that has an open merge request with `main` branch
+* Pipeline for dev workflow -> this is triggered by a push to a feature branch that has an open merge request with `main` branch
+* Pipeleine for deployment to prod -> triggered by a merge to master, has same steps but if any fail, deployment to prod step is disabled.
 Pipeline stages:
 * extract strings (optional step manually triggered if dev added new strings that require translations) -> extract strings and upload to locaization tool e.g. Crowdin.
 * run linting -> can fail for dev pipeline but branch cannot be merged without pass
@@ -45,10 +46,3 @@ Pipeline stages:
 * build project -> in multiple langs if necessary
 * build docker image
 * deploy to staging / prod -> for prod I would suggest to use a canary deployment with the option to rollback all traffic to previous image version in case of any unforeseen issues (i.e. while monitoring errors or app health metrics)
-
-Pipeline to be built for deployment to prod would be the 
-
-
-
-
-
