@@ -15,6 +15,7 @@ export class DashboardComponent implements OnInit, DoCheck {
   public locationsList: weatherObject[] = [];
   public UnitsType = Units;
   public tempUnit: string;
+  public unitToDisplay: Units;
   public locationError: string;
 
   constructor(
@@ -24,7 +25,14 @@ export class DashboardComponent implements OnInit, DoCheck {
   public ngOnInit(): void {
     this.setCurrentWeather();
     this.locationsList = this.weatherService.getDefaultLocationWeather();
-    this.tempUnit = this.weatherService.getTempUnitString();
+    // this.tempUnit = this.weatherService.getTempUnitString();
+
+    this.weatherService.unitsToDisplay$.subscribe((value) => {
+      this.unitToDisplay = value;
+    });
+    this.weatherService.tempUnit$.subscribe((value) => {
+      this.tempUnit = value;
+    });
   }
 
   public ngDoCheck(): void {
@@ -40,7 +48,7 @@ export class DashboardComponent implements OnInit, DoCheck {
 
   public setUnitsToDisplay(units: Units): void {
     this.weatherService.setUnitsToDisplay(units);
-    this.setCurrentWeather();
-    this.weatherService.setDefaultLocationWeather();
+    // this.setCurrentWeather();
+    // this.weatherService.setDefaultLocationWeather();
   }
 }

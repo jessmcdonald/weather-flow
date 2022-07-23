@@ -6,9 +6,15 @@
     <div i18n>Detecting location...</div>
 </ng-template> -->
 
-<ul>
+<ul class="location-list">
     <li *ngIf="currentLocationWeather; else loading" class="current-location-list-item">
-        <wf-location-list-item [locationName]=currentLocationWeather.name [currentTemp]=currentLocationWeather.temp [tempUnit]=this.tempUnit></wf-location-list-item>
+        <wf-location-list-item 
+        [locationName]=currentLocationWeather.name 
+        [currentTemp]=currentLocationWeather.temp 
+        [currentTempImp]=currentLocationWeather.temp_imp
+        [tempUnit]=this.tempUnit 
+        [icon]=currentLocationWeather.icon
+        [weather]=currentLocationWeather.weather></wf-location-list-item>
     </li>
     <ng-template #loading>
         <li class="current-location-loading">
@@ -19,14 +25,17 @@
         </li>
     </ng-template>
     <li *ngFor="let location of locationsList" class="default-location-list-item">
-        <wf-location-list-item [locationName]=location.name [currentTemp]=location.temp [tempUnit]=this.tempUnit></wf-location-list-item>
+        <wf-location-list-item 
+        [locationName]=location.name 
+        [currentTemp]=location.temp
+        [currentTempImp]=location.temp_imp 
+        [tempUnit]=this.tempUnit
+        [icon]=location.icon
+        [weather]=location.weather></wf-location-list-item>
     </li>
 </ul>
 
-<!-- TODO I fudged this up, fix if have time 
-    use event emitter to update dahsboard component
-    store both sets of data once requested-->
-<!-- <div>
-    <button class="metric-btn" (click)=setUnitsToDisplay(UnitsType.METRIC) i18n>metric</button>
-    <button class="imperial-btn" (click)=setUnitsToDisplay(UnitsType.IMPERIAL) i18n>imperial</button>
-</div> -->
+<div>
+    <button class="metric-btn" [ngClass]="{'active': unitToDisplay == UnitsType.METRIC}" (click)=setUnitsToDisplay(UnitsType.METRIC) i18n>metric</button>
+    <button class="imperial-btn" [ngClass]="{'active': unitToDisplay == UnitsType.IMPERIAL}" (click)=setUnitsToDisplay(UnitsType.IMPERIAL) i18n>imperial</button>
+</div>

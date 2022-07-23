@@ -7,7 +7,7 @@ const routes: Routes = [
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
   { path: 'dashboard', component: DashboardComponent },
   { path: 'details/:id', component: DetailsComponent },
-  { path: '**', component: DashboardComponent }, // TODO add pagenotfound component
+  { path: '**', redirectTo: '/dashboard' }, // TODO add pagenotfound component
 ];
 
 @NgModule({

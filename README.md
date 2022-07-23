@@ -19,6 +19,7 @@ Product improvements I would add next:
 * add possibility to add/remove & save custom default locations
 Other:
 * state management - I have chosen to use the weatherService to store the app state and have not implemented NgRx at this point as for an app of this size I thought it would be overkill, however as funtionality and user settings are added, it could make sense to add state management following Flux/Redux design.
+* add some more interesting styling, e.g. a nice swipe animation when moving to the details view
 
 ## Localization
 All strings in the app will be tagged with `i18n` label. This will allow the use of Angular's built in Internationalization functionality. All strings can be extracted using `ng extract-langs` then uploded to a tool e.g. Crowdin/ Lokalize where translators can add translations. These can then be downloaded and incorporated into the app so that it can either be built in seperate languages OR utilise Ivy compiler ability to build the project once and do translations at runtime.

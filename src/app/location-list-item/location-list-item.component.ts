@@ -9,8 +9,11 @@ export class LocationListItemComponent {
 
   @Input() locationName: string;
   @Input() currentTemp: number;
+  @Input() currentTempImp: number;
   @Input() tempUnit: string;
+  @Input() icon: string;
+  @Input() weather: string;
 
-  constructor() { }
+  constructor() {}
 
 }

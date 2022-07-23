@@ -10,7 +10,6 @@ import { WeatherService } from '../shared/weather.service';
   styleUrls: ['./details.component.scss']
 })
 export class DetailsComponent implements OnInit {
-  public selectedLocation$: Observable<any>;
   public selectedLocation: weatherObject;
   public UnitsType = Units;
   public unitsToDisplay: Units;
@@ -23,15 +22,15 @@ export class DetailsComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.setUnitsToDisplay();
+    this.weatherService.unitsToDisplay$.subscribe((value) => {
+      this.unitsToDisplay = value;
+    });
+    this.weatherService.tempUnit$.subscribe((value) => {
+      this.tempUnit = value;
+    });
     this.route.paramMap.subscribe( paramMap => {
       this.selectedLocation = this.weatherService.getWeatherByName((paramMap).get('id'));
     });
-  }
-
-  public setUnitsToDisplay(): void {
-    this.unitsToDisplay = this.weatherService.getUnitsToDisplay();
-    this.tempUnit = this.weatherService.getTempUnitString();
   }
 
   public goToDashboard(): void {

@@ -1,12 +1,13 @@
-<button class="back-btn" (click)="goToDashboard()">Back</button>
+<div class="details__container">
+    <button class="back-btn" (click)="goToDashboard()">Back</button>
 <div *ngIf="selectedLocation; else cannotGetWeather">
     <div>
         <span class="detail--weather">{{selectedLocation.weather}}</span>
         <span>{{selectedLocation.weather_description}}</span>
     </div>
     <h1>{{selectedLocation.name}}</h1>
-    <ng-container>
-        <h2 class="detail--temp">{{selectedLocation.temp}} °C</h2>
+    <ng-container *ngIf="unitsToDisplay == UnitsType.METRIC; else imperialTemps">
+        <h2 class="detail--temp">{{selectedLocation.temp}} {{tempUnit}}</h2>
         <div>
             <span class="detail--feelslike">feels like: {{selectedLocation.feels_like}} {{tempUnit}}</span>
         </div>
@@ -17,6 +18,18 @@
             <span class="detail--lotemp">low temp: {{selectedLocation.temp_min}} {{tempUnit}}</span>
         </div>
     </ng-container>
+    <ng-template #imperialTemps>
+        <h2 class="detail--temp">{{selectedLocation.temp_imp}} {{tempUnit}}</h2>
+        <div>
+            <span class="detail--feelslike">feels like: {{selectedLocation.feels_like_imp}} {{tempUnit}}</span>
+        </div>
+        <div>
+            <span class="detail--hitemp">high temp: {{selectedLocation.temp_max_imp}} {{tempUnit}}</span>
+        </div>
+        <div>
+            <span class="detail--lotemp">low temp: {{selectedLocation.temp_min_imp}} {{tempUnit}}</span>
+        </div>
+    </ng-template>
     
     <div>
         <span class="detail--sunrise">sunrise {{selectedLocation.sunrise | date:'shortTime'}}</span>
@@ -36,3 +49,5 @@
 <ng-template #cannotGetWeather>
     <div>sorry we can't get the weather for that location :(</div>
 </ng-template>
+</div>
+

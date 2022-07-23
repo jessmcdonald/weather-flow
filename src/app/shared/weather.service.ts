@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
+import { BehaviorSubject, Observable, throwError } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
-import { basicWeatherObject, Units, weatherObject } from './models/weather.models';
+import { Units, weatherObject } from './models/weather.models';
 
 @Injectable({
   providedIn: 'root'
@@ -17,18 +17,24 @@ export class WeatherService {
   private currentLon: number;
   private locationError: string;
 
+  public unitsToDisplay$ = new BehaviorSubject<Units>(Units.METRIC);
+  public tempUnit$ = new BehaviorSubject<string>("°C");
+
   constructor(
     private http: HttpClient
   ) {
     this.setUsersCurrentLocation();
     this.setDefaultLocationWeather();
+    this.unitsToDisplay$.subscribe((value) => {
+      this.unitsToDisplay = value;
+    });
    }
 
   public fetchWeatherForLocation(lat?: number, lon?: number, city?: string): Observable<any>{
     const baseUrlPath: string = "https://api.openweathermap.org/data/2.5/weather";
     const openWeatherApiKey: string = '23a52deef379e7d6bca0f7b3239f7a3b'; // TODO move this to somewhere secure
     let params = new HttpParams()
-      .set('units', this.unitsToDisplay) // TODO allow user to choose units
+      .set('units', this.unitsToDisplay)
       .set('appid', openWeatherApiKey);;
     if(lat && lon) {
       params = params.append('lat', lat).append('lon', lon)
@@ -41,14 +47,19 @@ export class WeatherService {
         response => ({
           name: response.name,
           feels_like: response.main.feels_like.toFixed(0),
+          feels_like_imp: this.toFarenheit(response.main.feels_like.toFixed(0)),
           humidity: response.main.humidity,
           visibility: response.visibility / 1000,
           pressure: response.main.pressure,
           temp: response.main.temp.toFixed(0),
           temp_max: response.main.temp_max.toFixed(0),
           temp_min: response.main.temp_min.toFixed(0),
+          temp_imp: this.toFarenheit(response.main.temp.toFixed(0)),
+          temp_max_imp: this.toFarenheit(response.main.temp_max.toFixed(0)),
+          temp_min_imp: this.toFarenheit(response.main.temp_min.toFixed(0)),
           weather: response.weather[0].main,
           weather_description: response.weather[0].description,
+          icon: response.weather[0].icon,
           sunrise: new Date(response.sys.sunrise * 1000),
           sunset: new Date(response.sys.sunset * 1000),
         } as weatherObject)
@@ -61,9 +72,10 @@ export class WeatherService {
   }
 
   public setUnitsToDisplay(units: Units): void {
-    this.unitsToDisplay = units;
-    this.setCurrentLocationWeather();
-    this.setDefaultLocationWeather();
+    this.unitsToDisplay$.next(units);
+    this.tempUnit$.next(this.getTempUnitString(units));
+    // this.setCurrentLocationWeather();
+    // this.setDefaultLocationWeather();
   }
 
   public getUnitsToDisplay(): Units {
@@ -143,8 +155,12 @@ export class WeatherService {
     return this.locationError;
   }
 
-  public getTempUnitString(): string {
-    switch(this.unitsToDisplay) {
+  public toFarenheit(celcius: number): number {
+    return celcius * 9 / 5 + 32;
+  }
+
+  public getTempUnitString(units: Units): string {
+    switch(units) {
       case Units.METRIC:
         return "°C"
         break;
