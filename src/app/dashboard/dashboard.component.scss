@@ -1,0 +1,38 @@
+@import '../../styles.scss';
+
+.location-list {
+    width: 100%;
+    margin: 0;
+    padding-inline-start: 0;
+    
+    li {
+        list-style: none;
+        height: 100px;
+        border: 3px solid #2b2b2b;
+        margin: 5px;
+        cursor: pointer;
+        transition: 0.5s;
+
+        &:hover {
+            opacity: 0.75;
+        }
+
+        &:nth-child(1) {
+            background-color: $mushroom;
+        }
+        
+        &:nth-child(2) {
+            background-color: $teal;
+        }
+
+        &:nth-child(3) {
+            background-color: $fuscia;
+        }
+
+        &:nth-child(4) {
+            background-color: $peach;
+        }
+    }
+
+    
+}

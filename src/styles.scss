@@ -1,1 +1,25 @@
-/* You can add global styles to this file, and also import other style files */
+// Color variables
+$sage: #94B49F;
+$mint: #CEE5D0;
+$cream: #FCF8E8;
+$peach: #ECB390;
+$fuscia: #D18CE0;
+$teal: #139487;
+$mushroom: #D0C9C0;
+
+// Font settings
+@font-face {
+    font-family: 'Glacial Indifference';
+    src: url(assets/fonts/GlacialIndifference-Regular.otf) format("opentype");
+}
+
+* {
+    font-family: 'Glacial Indifference';
+}
+
+body {
+    height: 100vh;
+    margin: 0;
+    background: $cream;
+    padding: 10px;
+}
