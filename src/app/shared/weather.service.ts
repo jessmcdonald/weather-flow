@@ -1,40 +1,34 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { BehaviorSubject, Observable, throwError } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
-import { Units, weatherObject } from './models/weather.models';
+import { Units, UnitTypes, weatherObject } from './models/weather.models';
 
 @Injectable({
   providedIn: 'root'
 })
 export class WeatherService {
 
-  private unitsToDisplay: Units = Units.METRIC;
   private currentLocationWeather: weatherObject;
   private defaultLocationsWeather: weatherObject[] = [];
   private defaultLocations = ['Berlin', 'London', 'Hong Kong'];
   private currentLat: number;
   private currentLon: number;
   private locationError: string;
-
-  public unitsToDisplay$ = new BehaviorSubject<Units>(Units.METRIC);
-  public tempUnit$ = new BehaviorSubject<string>("°C");
+  readonly displayUnits$ = new BehaviorSubject<UnitTypes>(UnitTypes.metric);
 
   constructor(
     private http: HttpClient
   ) {
     this.setUsersCurrentLocation();
     this.setDefaultLocationWeather();
-    this.unitsToDisplay$.subscribe((value) => {
-      this.unitsToDisplay = value;
-    });
    }
 
   public fetchWeatherForLocation(lat?: number, lon?: number, city?: string): Observable<any>{
     const baseUrlPath: string = "https://api.openweathermap.org/data/2.5/weather";
     const openWeatherApiKey: string = '23a52deef379e7d6bca0f7b3239f7a3b'; // TODO move this to somewhere secure
     let params = new HttpParams()
-      .set('units', this.unitsToDisplay)
+      .set('units', Units.METRIC)
       .set('appid', openWeatherApiKey);;
     if(lat && lon) {
       params = params.append('lat', lat).append('lon', lon)
@@ -71,22 +65,15 @@ export class WeatherService {
     )
   }
 
-  public setUnitsToDisplay(units: Units): void {
-    this.unitsToDisplay$.next(units);
-    this.tempUnit$.next(this.getTempUnitString(units));
-    // this.setCurrentLocationWeather();
-    // this.setDefaultLocationWeather();
-  }
-
-  public getUnitsToDisplay(): Units {
-    return this.unitsToDisplay;
+  public setUnitsToDisplay(units: UnitTypes): void {
+    this.displayUnits$.next(units);
   }
 
   public setDefaultLocationWeather(): void {
     this.defaultLocationsWeather = [];
-    for(let i = 0; i < this.defaultLocations.length; i++) {
-      this.fetchWeatherForLocation(undefined, undefined, this.defaultLocations[i]).subscribe(basicWeather => this.defaultLocationsWeather.push(basicWeather));
-    }
+    this.defaultLocations.forEach(location => 
+      this.fetchWeatherForLocation(undefined, undefined, location).subscribe(basicWeather => this.defaultLocationsWeather.push(basicWeather))
+    );
   }
 
   public getDefaultLocationWeather(): weatherObject[] {
@@ -119,7 +106,6 @@ export class WeatherService {
             this.locationError = "Sorry! Geolocation failed or the network cannot be reached"
             break;
           }
-          console.log(this.locationError); 
       }, options);
 
     } else {
@@ -137,18 +123,11 @@ export class WeatherService {
     return this.currentLocationWeather;
   }
 
-  public getWeatherByName(name: string | null): weatherObject {
+  public getWeatherByName(name: string | null): weatherObject | undefined {
     if(this.currentLocationWeather.name === name) {
       return this.currentLocationWeather;
     }
-
-    const result = this.defaultLocationsWeather.filter(obj => {
-      return obj.name === name
-    });
-    if(result.length > 0) {
-      return result[0];
-    }
-    return result[0];
+    return this.defaultLocationsWeather.find(item => item.name === name);
   }
 
   public getLocationError(): string {
@@ -159,14 +138,4 @@ export class WeatherService {
     return celcius * 9 / 5 + 32;
   }
 
-  public getTempUnitString(units: Units): string {
-    switch(units) {
-      case Units.METRIC:
-        return "°C"
-        break;
-      case Units.IMPERIAL:
-        return "°F"
-        break;
-    } 
-  }
 }

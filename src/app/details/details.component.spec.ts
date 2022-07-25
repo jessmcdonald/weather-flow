@@ -4,25 +4,11 @@ import { By } from '@angular/platform-browser';
 import { DetailsComponent } from './details.component';
 import { RouterTestingModule } from '@angular/router/testing';
 import { WeatherService } from '../shared/weather.service';
-import { Units } from '../shared/models/weather.models';
-import { cold, getTestScheduler } from 'jasmine-marbles';
+import { getTestScheduler } from 'jasmine-marbles';
+import { ActivatedRoute, convertToParamMap } from '@angular/router';
+import { of } from 'rxjs';
 import { mockWeatherObject } from '../testing/mockData';
 
-const weatherServiceStub = {
-  fetchWeatherForLocation() {
-    const weather$ = cold('--a|', { a: [{name: "berlin"}] });
-    return weather$;
-  },
-  getUnitsToDisplay() {
-    return Units.METRIC;
-  },
-  getTempUnitString() {
-    return "°C";
-  },
-  getWeatherByName() {
-    return mockWeatherObject;
-  }
-};
 
 describe('DetailsComponent', () => {
   let component: DetailsComponent;
@@ -34,7 +20,14 @@ describe('DetailsComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [ DetailsComponent ],
       imports: [HttpClientTestingModule, RouterTestingModule],
-      providers: [{provide: WeatherService, useValue: weatherServiceStub}]
+      providers: [
+        WeatherService, 
+        { provide: ActivatedRoute, useValue: {
+          paramMap: of(convertToParamMap({ 
+            id: 'Tokyo',
+        }))
+      }},
+      ],
     })
     .compileComponents();
 
@@ -49,14 +42,21 @@ describe('DetailsComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should display all temperature info', () => {
+  it('should display all temperature info', fakeAsync(() => {
+    component.selectedLocation = mockWeatherObject;
     getTestScheduler().flush();
     fixture.detectChanges();
     expect(fixture.debugElement.query(By.css('.detail--temp'))).toBeTruthy();
     expect(fixture.debugElement.query(By.css('.detail--feelslike'))).toBeTruthy();
     expect(fixture.debugElement.query(By.css('.detail--hitemp'))).toBeTruthy();
     expect(fixture.debugElement.query(By.css('.detail--lotemp'))).toBeTruthy();
-  });
+  }));
+
+  it('should display error message if cannot get weather', fakeAsync(() => {
+    getTestScheduler().flush();
+    fixture.detectChanges();
+    expect(fixture.debugElement.query(By.css('.cannot-get-weather'))).toBeTruthy();
+  }));
 
   it('should navigate back to dashboard when button clicked', fakeAsync(() => {
     spyOn(component, 'goToDashboard');

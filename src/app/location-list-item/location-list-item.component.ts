@@ -1,4 +1,5 @@
 import { Component, Input} from '@angular/core';
+import { UnitTypes } from '../shared/models/weather.models';
 
 @Component({
   selector: 'wf-location-list-item',
@@ -10,9 +11,11 @@ export class LocationListItemComponent {
   @Input() locationName: string;
   @Input() currentTemp: number;
   @Input() currentTempImp: number;
-  @Input() tempUnit: string;
+  @Input() tempUnit: UnitTypes;
   @Input() icon: string;
   @Input() weather: string;
+
+  public UnitTypes = UnitTypes;
 
   constructor() {}
 

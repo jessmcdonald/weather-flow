@@ -1,8 +1,8 @@
 <div class="list-item" [routerLink]="['/details', locationName]">
     <div class="list-item--location">{{locationName}}</div>
-    <div *ngIf="tempUnit == '°C' ; else imperialTemp" class="list-item--temp">{{currentTemp}} {{tempUnit}}</div>
+    <div *ngIf="tempUnit == UnitTypes.metric ; else imperialTemp" class="list-item--temp">{{currentTemp}} {{tempUnit.value}}</div>
     <ng-template #imperialTemp>
-        <div class="list-item--temp">{{currentTempImp}} {{tempUnit}}</div>
+        <div class="list-item--temp imperial-temp">{{currentTempImp}} {{tempUnit.value}}</div>
     </ng-template>
     <img class="list-item--icon" alt="{{weather}}" src="assets/{{icon}}.svg">
 </div>

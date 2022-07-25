@@ -1,8 +1,9 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { By } from '@angular/platform-browser';
-
+import { getTestScheduler } from 'jasmine-marbles';
 import { LocationListItemComponent } from './location-list-item.component';
+import { UnitTypes } from '../shared/models/weather.models';
 
 describe('LocationListItemComponent', () => {
   let component: LocationListItemComponent;
@@ -17,6 +18,7 @@ describe('LocationListItemComponent', () => {
 
     fixture = TestBed.createComponent(LocationListItemComponent);
     component = fixture.componentInstance;
+    component.tempUnit = UnitTypes.metric;
     fixture.detectChanges();
   });
 

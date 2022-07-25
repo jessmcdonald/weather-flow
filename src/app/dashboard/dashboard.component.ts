@@ -1,5 +1,6 @@
-import { Component, DoCheck, OnInit } from '@angular/core';
-import { weatherObject, Units } from '../shared/models/weather.models';
+import { Component, DoCheck, OnDestroy, OnInit } from '@angular/core';
+import { Subject, takeUntil } from 'rxjs';
+import { weatherObject, Units, UnitTypes } from '../shared/models/weather.models';
 import { WeatherService } from '../shared/weather.service';
 
 @Component({
@@ -7,16 +8,17 @@ import { WeatherService } from '../shared/weather.service';
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
-export class DashboardComponent implements OnInit, DoCheck {
+export class DashboardComponent implements OnInit, DoCheck, OnDestroy {
 
   public currentLat: number;
   public currentLon: number;
   public currentLocationWeather: weatherObject;
   public locationsList: weatherObject[] = [];
   public UnitsType = Units;
-  public tempUnit: string;
+  public tempUnit: UnitTypes;
   public unitToDisplay: Units;
   public locationError: string;
+  public notifier = new Subject<void>();
 
   constructor(
     private weatherService: WeatherService
@@ -24,19 +26,24 @@ export class DashboardComponent implements OnInit, DoCheck {
 
   public ngOnInit(): void {
     this.setCurrentWeather();
+    this.getUnits();
     this.locationsList = this.weatherService.getDefaultLocationWeather();
-    // this.tempUnit = this.weatherService.getTempUnitString();
-
-    this.weatherService.unitsToDisplay$.subscribe((value) => {
-      this.unitToDisplay = value;
-    });
-    this.weatherService.tempUnit$.subscribe((value) => {
-      this.tempUnit = value;
-    });
   }
 
   public ngDoCheck(): void {
     this.setCurrentWeather();
+  }
+
+  public ngOnDestroy() {
+    this.notifier.next();
+    this.notifier.complete();
+  }
+
+  public getUnits(): void {
+    this.weatherService.displayUnits$.pipe(takeUntil(this.notifier)).subscribe((value) => {
+      this.tempUnit = value;
+      this.unitToDisplay = value.value;
+    });
   }
 
   public setCurrentWeather(): void {
@@ -47,8 +54,6 @@ export class DashboardComponent implements OnInit, DoCheck {
   }
 
   public setUnitsToDisplay(units: Units): void {
-    this.weatherService.setUnitsToDisplay(units);
-    // this.setCurrentWeather();
-    // this.weatherService.setDefaultLocationWeather();
+    this.weatherService.setUnitsToDisplay(UnitTypes[units]);
   }
 }

@@ -1,29 +1,21 @@
 <h1>Dashboard</h1>
 
-<!-- <div *ngIf="currentLat && currentLon; else locationNotDetected"></div> -->
-
-<!-- <ng-template #locationNotDetected>
-    <div i18n>Detecting location...</div>
-</ng-template> -->
-
 <ul class="location-list">
-    <li *ngIf="currentLocationWeather; else loading" class="current-location-list-item">
-        <wf-location-list-item 
+    <li class="current-location-list-item">
+        <wf-location-list-item *ngIf="currentLocationWeather; else loading"
         [locationName]=currentLocationWeather.name 
         [currentTemp]=currentLocationWeather.temp 
         [currentTempImp]=currentLocationWeather.temp_imp
         [tempUnit]=this.tempUnit 
         [icon]=currentLocationWeather.icon
         [weather]=currentLocationWeather.weather></wf-location-list-item>
-    </li>
-    <ng-template #loading>
-        <li class="current-location-loading">
+        <ng-template #loading>
             <div *ngIf="!locationError; else locationErrorMessage">Loading current weather</div>
             <ng-template #locationErrorMessage>
                 <div>{{locationError}}</div>
-            </ng-template>
-        </li>
-    </ng-template>
+            </ng-template></ng-template>
+    </li>
+
     <li *ngFor="let location of locationsList" class="default-location-list-item">
         <wf-location-list-item 
         [locationName]=location.name 
@@ -35,7 +27,7 @@
     </li>
 </ul>
 
-<div>
+<div class="btn-container">
     <button class="metric-btn" [ngClass]="{'active': unitToDisplay == UnitsType.METRIC}" (click)=setUnitsToDisplay(UnitsType.METRIC) i18n>metric</button>
     <button class="imperial-btn" [ngClass]="{'active': unitToDisplay == UnitsType.IMPERIAL}" (click)=setUnitsToDisplay(UnitsType.IMPERIAL) i18n>imperial</button>
 </div>

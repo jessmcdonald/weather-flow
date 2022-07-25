@@ -37,16 +37,4 @@ describe('WeatherService', () => {
     req.flush(mockWeatherObject);
   });
 
-  it('should return expected weather info', () => {
-    const testData: Data = mockWeatherObject;
-    const testUrl = "https://api.openweathermap.org/data/2.5/weather?units=metric&appid=23a52deef379e7d6bca0f7b3239f7a3b&lat=52.5481266&lon=13.4592726"
-  
-    httpClient.get<Data>(testUrl)
-      .subscribe(data => {
-        expect(data).toEqual(testData)
-      });
-      const req = httpController.expectOne(testUrl);
-      expect(req.request.method).toEqual('GET');
-      req.flush(testData);
-  });
 });
