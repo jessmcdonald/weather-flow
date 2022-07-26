@@ -54,8 +54,8 @@ export class WeatherService {
           weather: response.weather[0].main,
           weather_description: response.weather[0].description,
           icon: response.weather[0].icon,
-          sunrise: new Date(response.sys.sunrise * 1000),
-          sunset: new Date(response.sys.sunset * 1000),
+          sunrise: this.getCorrectTimeToDisplay(response.sys.sunrise, response.timezone),
+          sunset: this.getCorrectTimeToDisplay(response.sys.sunset, response.timezone),
         } as weatherObject)
       ),
       catchError((error) => {
@@ -123,15 +123,34 @@ export class WeatherService {
     return this.currentLocationWeather;
   }
 
-  public getWeatherByName(name: string | null): weatherObject | undefined {
-    if(this.currentLocationWeather.name === name) {
-      return this.currentLocationWeather;
+  public getWeatherByName(name: string): weatherObject | undefined {
+    if(this.defaultLocationsWeather.find(item => item.name === name)) {
+      return this.defaultLocationsWeather.find(item => item.name === name);
+    } else {
+      if(this.currentLocationWeather) {
+        if(this.currentLocationWeather.name === name) {
+          return this.currentLocationWeather;
+        }
+      }
     }
-    return this.defaultLocationsWeather.find(item => item.name === name);
+    return;
   }
 
   public getLocationError(): string {
     return this.locationError;
+  }
+
+  public getCorrectTimeToDisplay(time: number, timezone: number): Date {
+    const date = new Date();
+    const offset = date.getTimezoneOffset();
+    const returnDate = new Date((time + timezone) * 1000)
+    return this.addOffset(offset / 60, returnDate);
+  }
+
+  public addOffset(numOfHours: number, date = new Date()): Date {
+    date.setHours(date.getHours() + numOfHours);
+    console.log(date, 'new one');
+    return date;
   }
 
   public toFarenheit(celcius: number): number {
