@@ -14,9 +14,8 @@ export class DashboardComponent implements OnInit, DoCheck, OnDestroy {
   public currentLon: number;
   public currentLocationWeather: weatherObject;
   public locationsList: weatherObject[] = [];
-  public UnitsType = Units;
+  public UnitTypes = UnitTypes;
   public tempUnit: UnitTypes;
-  public unitToDisplay: Units;
   public locationError: string;
   public notifier = new Subject<void>();
 
@@ -42,7 +41,6 @@ export class DashboardComponent implements OnInit, DoCheck, OnDestroy {
   public getUnits(): void {
     this.weatherService.displayUnits$.pipe(takeUntil(this.notifier)).subscribe((value) => {
       this.tempUnit = value;
-      this.unitToDisplay = value.value;
     });
   }
 
@@ -53,7 +51,7 @@ export class DashboardComponent implements OnInit, DoCheck, OnDestroy {
     }
   }
 
-  public setUnitsToDisplay(units: Units): void {
-    this.weatherService.setUnitsToDisplay(UnitTypes[units]);
+  public setUnitsToDisplay(units: UnitTypes): void {
+    this.weatherService.setUnitsToDisplay(units);
   }
 }

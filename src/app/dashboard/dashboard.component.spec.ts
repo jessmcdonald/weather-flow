@@ -53,12 +53,14 @@ describe('DashboardComponent', () => {
   }));
 
   it('should change the units when user changes preference', fakeAsync(() => {
-    spyOn(component, 'setUnitsToDisplay');
+    let active = fixture.debugElement.nativeElement.querySelector('.active');
+    expect(active.innerHTML).toContain('metric');
     let button = fixture.debugElement.nativeElement.querySelector('.imperial-btn');
     button.click();
     tick();
     fixture.detectChanges();
-    expect(component.setUnitsToDisplay).toHaveBeenCalledWith(Units.IMPERIAL);
+    active = fixture.debugElement.nativeElement.querySelector('.active');
+    expect(active.innerHTML).toContain('imperial');
   }));
 
 });

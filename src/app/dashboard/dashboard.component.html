@@ -3,12 +3,11 @@
 <ul class="location-list">
     <li class="current-location-list-item">
         <wf-location-list-item *ngIf="currentLocationWeather; else loading"
-        [locationName]=currentLocationWeather.name 
-        [currentTemp]=currentLocationWeather.temp 
-        [currentTempImp]=currentLocationWeather.temp_imp
         [tempUnit]=this.tempUnit 
         [icon]=currentLocationWeather.icon
-        [weather]=currentLocationWeather.weather></wf-location-list-item>
+        [weather]=currentLocationWeather.weather
+        [location]=currentLocationWeather
+        [currentLocation]=true></wf-location-list-item>
         <ng-template #loading>
             <div *ngIf="!locationError; else locationErrorMessage">Loading current weather</div>
             <ng-template #locationErrorMessage>
@@ -18,16 +17,15 @@
 
     <li *ngFor="let location of locationsList" class="default-location-list-item">
         <wf-location-list-item 
-        [locationName]=location.name 
-        [currentTemp]=location.temp
-        [currentTempImp]=location.temp_imp 
         [tempUnit]=this.tempUnit
         [icon]=location.icon
-        [weather]=location.weather></wf-location-list-item>
+        [weather]=location.weather
+        [location]=location
+        [currentLocation]=false></wf-location-list-item>
     </li>
 </ul>
 
 <div class="btn-container">
-    <button class="metric-btn" [ngClass]="{'active': unitToDisplay == UnitsType.METRIC}" (click)=setUnitsToDisplay(UnitsType.METRIC) i18n>metric</button>
-    <button class="imperial-btn" [ngClass]="{'active': unitToDisplay == UnitsType.IMPERIAL}" (click)=setUnitsToDisplay(UnitsType.IMPERIAL) i18n>imperial</button>
+    <button class="metric-btn" [ngClass]="{'active': tempUnit == UnitTypes.metric}" (click)=setUnitsToDisplay(UnitTypes.metric) i18n>metric</button>
+    <button class="imperial-btn" [ngClass]="{'active': tempUnit == UnitTypes.imperial}" (click)=setUnitsToDisplay(UnitTypes.imperial) i18n>imperial</button>
 </div>

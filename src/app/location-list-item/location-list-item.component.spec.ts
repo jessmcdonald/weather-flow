@@ -4,6 +4,7 @@ import { By } from '@angular/platform-browser';
 import { getTestScheduler } from 'jasmine-marbles';
 import { LocationListItemComponent } from './location-list-item.component';
 import { UnitTypes } from '../shared/models/weather.models';
+import { mockWeatherObject } from '../testing/mockData';
 
 describe('LocationListItemComponent', () => {
   let component: LocationListItemComponent;
@@ -19,6 +20,7 @@ describe('LocationListItemComponent', () => {
     fixture = TestBed.createComponent(LocationListItemComponent);
     component = fixture.componentInstance;
     component.tempUnit = UnitTypes.metric;
+    component.location = mockWeatherObject;
     fixture.detectChanges();
   });
 

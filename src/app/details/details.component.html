@@ -1,11 +1,15 @@
-<div class="details__container">
+<header>
     <button class="back-btn" (click)="goToDashboard()">Back</button>
-<div *ngIf="selectedLocation; else cannotGetWeather">
-    <div>
-        <span class="detail--weather">{{selectedLocation.weather}}</span>
-        <span>{{selectedLocation.weather_description}}</span>
-    </div>
-    <h1>{{selectedLocation.name}}</h1>
+    <h1 *ngIf="selectedLocation">{{selectedLocation.name}}</h1>
+</header>
+
+<div class="details__container">
+    <div *ngIf="selectedLocation; else cannotGetWeather">
+        <div>
+            <span class="detail--weather">{{selectedLocation.weather}}</span>
+            <span>{{selectedLocation.weather_description}}</span>
+        </div>
+    
     <ng-container *ngIf="unitsToDisplay == UnitTypes.metric; else imperialTemps">
         <h2 class="detail--temp">{{selectedLocation.temp}} {{tempUnit}}</h2>
         <div>

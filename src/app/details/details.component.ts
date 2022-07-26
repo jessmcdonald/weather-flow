@@ -16,18 +16,23 @@ export class DetailsComponent implements OnInit {
   public tempUnit: Units;
   public notifier = new Subject<void>();
   public UnitTypes = UnitTypes;
+  public selectedLocationId: string | null;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private weatherService: WeatherService,
-  ) { }
+  ) {
+    this.route.paramMap.pipe(takeUntil(this.notifier)).subscribe( paramMap => {
+      this.selectedLocationId = (paramMap).get('id');
+    });
+   }
 
   ngOnInit(): void {
     this.getUnits();
-    this.route.paramMap.pipe(takeUntil(this.notifier)).subscribe( paramMap => {
-      this.selectedLocation = this.weatherService.getWeatherByName((paramMap).get('id'));
-    });
+    if(this.selectedLocationId) {
+      this.selectedLocation = this.weatherService.getWeatherByName(this.selectedLocationId);
+    }
   }
 
   public getUnits(): void {
