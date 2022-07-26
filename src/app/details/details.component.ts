@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
 import { Units, UnitTypes, weatherObject } from '../shared/models/weather.models';
@@ -9,7 +9,7 @@ import { WeatherService } from '../shared/weather.service';
   templateUrl: './details.component.html',
   styleUrls: ['./details.component.scss']
 })
-export class DetailsComponent implements OnInit {
+export class DetailsComponent implements OnInit, OnDestroy {
   public selectedLocation: weatherObject | undefined;
   public UnitsType = Units;
   public unitsToDisplay: UnitTypes;
@@ -28,7 +28,7 @@ export class DetailsComponent implements OnInit {
     });
    }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.getUnits();
     if(this.selectedLocationId) {
       this.selectedLocation = this.weatherService.getWeatherByName(this.selectedLocationId);
@@ -46,7 +46,7 @@ export class DetailsComponent implements OnInit {
     this.router.navigate(['/dashboard']);
   }
 
-  public ngOnDestroy() {
+  public ngOnDestroy(): void {
     this.notifier.next();
     this.notifier.complete();
   }

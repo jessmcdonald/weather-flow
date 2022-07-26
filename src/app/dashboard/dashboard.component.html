@@ -26,6 +26,6 @@
 </ul>
 
 <div class="btn-container">
-    <button class="metric-btn" [ngClass]="{'active': tempUnit == UnitTypes.metric}" (click)=setUnitsToDisplay(UnitTypes.metric) i18n>metric</button>
-    <button class="imperial-btn" [ngClass]="{'active': tempUnit == UnitTypes.imperial}" (click)=setUnitsToDisplay(UnitTypes.imperial) i18n>imperial</button>
+    <button class="metric-btn" [ngClass]="{'active': tempUnit === UnitTypes.metric}" (click)=setUnitsToDisplay(UnitTypes.metric) i18n>metric</button>
+    <button class="imperial-btn" [ngClass]="{'active': tempUnit === UnitTypes.imperial}" (click)=setUnitsToDisplay(UnitTypes.imperial) i18n>imperial</button>
 </div>

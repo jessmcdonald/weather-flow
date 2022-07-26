@@ -12,7 +12,7 @@
             <img class="detail--icon" alt="{{selectedLocation.weather}}" src="assets/{{selectedLocation.icon}}.svg">
         </div>
     
-    <ng-container *ngIf="unitsToDisplay == UnitTypes.metric; else imperialTemps">
+    <ng-container *ngIf="unitsToDisplay === UnitTypes.metric; else imperialTemps">
         <div class="temp__container">
             <h2 class="detail--temp">{{selectedLocation.temp}} {{tempUnit}}</h2>
             <ul class="temp__list">

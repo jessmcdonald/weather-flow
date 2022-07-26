@@ -14,7 +14,7 @@ describe('DashboardComponent', () => {
   let fixture: ComponentFixture<DashboardComponent>;
 
   @Component({selector: 'wf-location-list-item'})
-  class MockLocationListItem {
+  class MockLocationListItemComponent {
     @Input() locationName: string;
     @Input() currentTemp: number;
     @Input() tempUnit: string;
@@ -22,7 +22,7 @@ describe('DashboardComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ DashboardComponent, MockLocationListItem ],
+      declarations: [ DashboardComponent, MockLocationListItemComponent ],
       imports: [HttpClientTestingModule, RouterTestingModule],
       providers: [WeatherService],
     })

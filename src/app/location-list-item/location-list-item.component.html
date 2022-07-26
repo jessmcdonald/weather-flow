@@ -3,7 +3,7 @@
     <ng-template #currentLocationLabel>
         <div class="list-item--location">Current location</div>
     </ng-template>
-    <div *ngIf="tempUnit == UnitTypes.metric ; else imperialTemp" class="list-item--temp">{{location.temp}} {{tempUnit.value}}</div>
+    <div *ngIf="tempUnit === UnitTypes.metric ; else imperialTemp" class="list-item--temp">{{location.temp}} {{tempUnit.value}}</div>
     <ng-template #imperialTemp>
         <div class="list-item--temp imperial-temp">{{location.temp_imp}} {{tempUnit.value}}</div>
     </ng-template>
