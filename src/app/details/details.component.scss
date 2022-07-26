@@ -1,25 +1,110 @@
 @import '../../styles.scss';
 
-.details__container {
-    background: linear-gradient(223deg, #ebc6b2, #ECB390);
-    background-size: 400% 400%;
-    -webkit-animation: AnimationName 8s ease infinite;
-    -moz-animation: AnimationName 8s ease infinite;
-    animation: AnimationName 8s ease infinite;
+.details__header{
+    display: flex;
+    justify-content: space-between;
+
+    .back-btn {
+        width: 60px;
+        height: 45px;
+        border-radius: 6px;
+    }
+
+    .detail--location {
+        margin: auto;
+        padding-right: 80px;
+    }
 }
 
-@-webkit-keyframes GradientAnimation {
-    0%{background-position:0% 50%}
-    50%{background-position:100% 50%}
-    100%{background-position:0% 50%}
+.details__container {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    flex-wrap: wrap;
+
+    .detail__headlines {
+        display: flex;
+        justify-content: center;
+        text-align: center;
+        flex-wrap: wrap;
+    }
+
+    .detail {
+        &--weather {
+            width: 100%;
+            font-size: 18px;
+        }
+
+        &--temp {
+            font-size: 50px;
+            margin: 20px auto;
+        }
+
+        &--icon {
+            width: 140px;
+            margin-top: 15px;
+        }
+    }
+
+    .temp__list {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-around;
+        padding: 20px;
+
+        li {
+            text-align: center;
+        }
+
+        .detail--feelslike {
+            width: 100%;
+        }
+    }
+
+    .extras__list {
+        padding: 0 20px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+        align-items: center;
+
+        li {
+            height: 100px;
+            width: calc(50% - 24px);
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            align-items: center;
+            margin: 10px;
+            border-radius: 6px;
+            border: 2px solid $charcoal;
+
+            &:nth-child(1) {
+                background-color: $mushroom;
+            }
+        
+            &:nth-child(2) {
+                background-color: $teal;
+            }
+
+            &:nth-child(3) {
+                background-color: $fuscia;
+            }
+
+            &:nth-child(4) {
+                background-color: $peach;
+            }
+
+            .extras__label, .extras__value {
+                width: 100%;
+            }
+
+            .extras__value {
+                font-size: 20px;
+            }
+        }
+    }
 }
-@-moz-keyframes GradientAnimation {
-    0%{background-position:0% 50%}
-    50%{background-position:100% 50%}
-    100%{background-position:0% 50%}
-}
-@keyframes GradientAnimation {
-    0%{background-position:0% 50%}
-    50%{background-position:100% 50%}
-    100%{background-position:0% 50%}
-}
+
+

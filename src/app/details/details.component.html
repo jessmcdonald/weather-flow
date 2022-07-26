@@ -1,53 +1,43 @@
-<header>
-    <button class="back-btn" (click)="goToDashboard()">Back</button>
-    <h1 *ngIf="selectedLocation">{{selectedLocation.name}}</h1>
+<header class="details__header">
+    <button class="back-btn" (click)="goToDashboard()">back</button>
+    <div class="detail--location"*ngIf="selectedLocation">
+        <h1>{{selectedLocation.name}}</h1>
+    </div>
 </header>
 
 <div class="details__container">
     <div *ngIf="selectedLocation; else cannotGetWeather">
-        <div>
+        <div class="detail__headlines">
             <span class="detail--weather">{{selectedLocation.weather}}</span>
-            <span>{{selectedLocation.weather_description}}</span>
+            <img class="detail--icon" alt="{{selectedLocation.weather}}" src="assets/{{selectedLocation.icon}}.svg">
         </div>
     
     <ng-container *ngIf="unitsToDisplay == UnitTypes.metric; else imperialTemps">
-        <h2 class="detail--temp">{{selectedLocation.temp}} {{tempUnit}}</h2>
-        <div>
-            <span class="detail--feelslike">feels like: {{selectedLocation.feels_like}} {{tempUnit}}</span>
-        </div>
-        <div>
-            <span class="detail--hitemp">high temp: {{selectedLocation.temp_max}} {{tempUnit}}</span>
-        </div>
-        <div>
-            <span class="detail--lotemp">low temp: {{selectedLocation.temp_min}} {{tempUnit}}</span>
+        <div class="temp__container">
+            <h2 class="detail--temp">{{selectedLocation.temp}} {{tempUnit}}</h2>
+            <ul class="temp__list">
+                <li class="detail--feelslike">feels like: {{selectedLocation.feels_like}} {{tempUnit}}</li>
+                <li class="detail--hitemp">high: {{selectedLocation.temp_max}} {{tempUnit}}</li>
+                <li class="detail--lotemp">low: {{selectedLocation.temp_min}} {{tempUnit}}</li>
+            </ul>
         </div>
     </ng-container>
     <ng-template #imperialTemps>
-        <h2 class="detail--temp">{{selectedLocation.temp_imp}} {{tempUnit}}</h2>
-        <div>
-            <span class="detail--feelslike">feels like: {{selectedLocation.feels_like_imp}} {{tempUnit}}</span>
-        </div>
-        <div>
-            <span class="detail--hitemp">high temp: {{selectedLocation.temp_max_imp}} {{tempUnit}}</span>
-        </div>
-        <div>
-            <span class="detail--lotemp">low temp: {{selectedLocation.temp_min_imp}} {{tempUnit}}</span>
+        <div class="temp__container">
+            <h2 class="detail--temp">{{selectedLocation.temp_imp}} {{tempUnit}}</h2>
+            <ul class="temp__list">
+                <li class="detail--feelslike">feels like: {{selectedLocation.feels_like_imp}} {{tempUnit}}</li>
+                <li class="detail--hitemp">high: {{selectedLocation.temp_max_imp}} {{tempUnit}}</li>
+                <li class="detail--lotemp">low: {{selectedLocation.temp_min_imp}} {{tempUnit}}</li>
+            </ul>
         </div>
     </ng-template>
-    
-    <div>
-        <span class="detail--sunrise">sunrise {{selectedLocation.sunrise | date:'shortTime'}}</span>
-    </div>
-    <div>
-        <span class="detail--sunset">sunset {{selectedLocation.sunset | date:'shortTime'}}</span>
-    </div>
-    <div>
-        <span class="detail--location">humidity {{selectedLocation.humidity}} %</span>
-    </div>
-    <div>
-        <span class="detail--visibility">visibility {{selectedLocation.visibility}} km</span>
-    </div>
-    
+    <ul class="extras__list">
+        <li class="detail--sunrise"><span class="extras__label">sunrise</span><span class="extras__value">{{selectedLocation.sunrise | date:'shortTime'}}</span></li>
+        <li class="detail--sunset"><span class="extras__label">sunset</span><span class="extras__value">{{selectedLocation.sunset | date:'shortTime'}}</span></li>
+        <li class="detail--location"><span class="extras__label">humidty</span><span class="extras__value">{{selectedLocation.humidity}} %</span></li>
+        <li class="detail--visibility"><span class="extras__label">visibility</span><span class="extras__value">{{selectedLocation.visibility}} km</span></li>
+    </ul>
 </div>
 
 <ng-template #cannotGetWeather>

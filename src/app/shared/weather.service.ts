@@ -149,7 +149,6 @@ export class WeatherService {
 
   public addOffset(numOfHours: number, date = new Date()): Date {
     date.setHours(date.getHours() + numOfHours);
-    console.log(date, 'new one');
     return date;
   }
 

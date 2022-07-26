@@ -9,9 +9,9 @@
         [location]=currentLocationWeather
         [currentLocation]=true></wf-location-list-item>
         <ng-template #loading>
-            <div *ngIf="!locationError; else locationErrorMessage">Loading current weather</div>
+            <div class="loading-msg" *ngIf="!locationError; else locationErrorMessage"><span>Loading current weather</span><img class="eye-icon" alt="eye icon" src="assets/eye.svg"></div>
             <ng-template #locationErrorMessage>
-                <div>{{locationError}}</div>
+                <div class="error-msg"><span>{{locationError}}</span><img class="eye-icon" alt="eye icon" src="assets/eye.svg"></div>
             </ng-template></ng-template>
     </li>
 
